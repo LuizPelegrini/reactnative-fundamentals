@@ -9,7 +9,7 @@ import {
 
 import api from './services/api';
 
-const Repository = ({ repo }) => {
+const Repository = ({ repo, handleDelete }) => {
     // keep track of the repository data copied from the component props
     const [repository, setRepository] = useState({...repo});
 
@@ -28,7 +28,15 @@ const Repository = ({ repo }) => {
 
     return (
         <View style={styles.repositoryContainer}>
-            <Text style={styles.repository}>{repository.title}</Text>
+            <View style={styles.header}>
+                <Text style={styles.repository}>{repository.title}</Text>
+                <TouchableOpacity
+                    activeOpacity={0.7}
+                    style={styles.deleteButton}
+                    onPress={() => handleDelete(repository.id)}>
+                <Text style={styles.deleteButtonText}>X</Text>
+                </TouchableOpacity>
+            </View>
 
             <View style={styles.techsContainer}>
                 {repository.techs.map((tech, index) => <Text key={index} style={styles.tech}>{tech}</Text>)}
@@ -62,8 +70,25 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         padding: 20,
     },
+    header:{
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    deleteButton: {
+        backgroundColor: '#f54242',
+        width: 25,
+        height: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 4
+    },
+    deleteButtonText: {
+        color: 'white',
+        fontWeight: '700',
+        fontSize: 18
+    },
     repository: {
-        fontSize: 32,
+        fontSize: 20,
         fontWeight: "bold",
     },
     techsContainer: {
@@ -91,6 +116,7 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 10,
+        marginRight: 200,
     },
     buttonText: {
         fontSize: 14,
@@ -98,7 +124,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
         color: "#fff",
         backgroundColor: "#7159c1",
-        padding: 15,
+        padding: 10,
     },
 })
 
